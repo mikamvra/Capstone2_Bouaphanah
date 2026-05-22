@@ -1,4 +1,4 @@
-package org.example;
+package ToppingPackage;
 
 public abstract class Topping {
     private String name;
@@ -6,6 +6,9 @@ public abstract class Topping {
     public Topping(String name){
     this.name = name;
     }
-    public String
+
+    public String getName() {
+        return name;
+    }
 }
 

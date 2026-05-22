@@ -1,4 +1,7 @@
 package ToppingPackage;
 
-public class Condiments {
+public class Condiments extends Topping{
+    public Condiments(String name) {
+        super(name);
+    }
 }
