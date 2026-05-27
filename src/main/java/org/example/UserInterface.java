@@ -1,7 +1,9 @@
 package org.example;
 
+import ToppingPackage.Condiments;
 import ToppingPackage.MeatToppings;
 import ToppingPackage.PremiumToppings;
+import ToppingPackage.RegularToppings;
 
 import java.util.Scanner;
 
@@ -195,8 +197,120 @@ public class UserInterface {
                     if (id >= 0 && id < PREMIUMS.length) {
                         bowl.addPremium(new PremiumToppings(PREMIUMS[id]));
                     }
-                } catch (NumberFormatException e) {}
+                } catch (NumberFormatException e) {
+                }
             }
         }
+        System.out.println("Would you like extra Premium Toppings? ");
+        if (scanner.nextLine().equalsIgnoreCase("Yes")) {
+            System.out.println("Select Extra Meats (Commas): ");
+            premChoices = scanner.nextLine().split(",");
+            for (String c : premChoices) {
+                String clean = c.trim();
+                if (!clean.isEmpty()) {
+                    try {
+                        int id = Integer.parseInt(clean) - 1;
+                        if (id >= 0 && id < PREMIUMS.length) {
+                            bowl.addExtraPremium(new PremiumToppings(PREMIUMS[id]));
+                        }
+                    } catch (NumberFormatException e) {
+                    }
+                }
+            }
+        }
+        System.out.println("Select Regular Toppings (Commas, or press Enter for none): ");
+        for (int i = 0; i < REGULARS.length; i++) System.out.printf("  %d) %s\n", i + 1, REGULARS[i]);
+        String[] regChoices = scanner.nextLine().split(",");
+        for (String c : regChoices) {
+            String clean = c.trim();
+            if (!clean.isEmpty()) {
+                try {
+                    int id = Integer.parseInt(clean) - 1;
+                    if (id >= 0 && id < REGULARS.length) {
+                        bowl.addRegular(new RegularToppings(REGULARS[id]));
+                    }
+                } catch (NumberFormatException e) {
+                }
+            }
+        }
+        System.out.println("Select Condiments (Commas, or press Enter for none): ");
+        for (int i = 0; i < CONDIMENTS.length; i++) System.out.printf("  %d) %s\n", i + 1, CONDIMENTS[i]);
+        String[] condChoices = scanner.nextLine().split(",");
+        for (String c : condChoices) {
+            String clean = c.trim();
+            if (!clean.isEmpty()) {
+                try {
+                    int id = Integer.parseInt(clean) - 1;
+                    if (id >= 0 && id < CONDIMENTS.length) {
+                        bowl.addCondiment(new Condiments(CONDIMENTS[id]));
+                    }
+                } catch (NumberFormatException e) {
+                }
+            }
+        }
+        orderManager.addItem(bowl);
+        System.out.println("Pho Bowl added successfully! ");
+    }
+
+    private static void addDrink() {
+        System.out.println("\n ~~~ Add Drink ~~~");
+
+
+        int id = -1;
+        while (true) {
+            System.out.println("Select Flavor:");
+            for (int i = 0; i < DRINK_FLAVORS.length; i++) System.out.printf("  %d) %s\n", i + 1, DRINK_FLAVORS[i]);
+            try {
+                int choice = Integer.parseInt(scanner.nextLine());
+                if (choice >= 1 && choice <= DRINK_FLAVORS.length) {
+                    id = choice - 1;
+                    break;
+                }
+                System.out.println("Invalid Option. Try Again.");
+            } catch (NumberFormatException e) {
+                System.out.println(" Invalid Option. Please Choose a Valid Number.");
+            }
+        }
+        String size = "Large";
+        while (true) {
+            System.out.println("Select Size:\n  1) Small\n  2) Medium\n  3) Large");
+            String input = scanner.nextLine().trim();
+            if (input.equals("1")) {
+                size = "Small";
+                break;
+            } else if (input.equals("2")) {
+                size = "Medium";
+                break;
+            } else if (input.equals("3")) {
+                size = "Large";
+                break;
+            } else {
+                System.out.println("Invalid selection. Please explicitly enter 1, 2, or 3.");
+            }
+        }
+        orderManager.addItem(new Drink(DRINK_FLAVORS[id], size));
+        System.out.println("Drink added successfully!");
+    }
+
+    private static void addSide() {
+        System.out.println("\n ~~~ Add Main Side ~~~");
+
+        int id = -1;
+        while (true) {
+            System.out.println(" Select Side:");
+            for (int i = 0; i < SIDES.length; i++) System.out.printf("  %d) %s\n", i + 1, SIDES[i]);
+            try {
+                int choice = Integer.parseInt(scanner.nextLine());
+                if (choice >= 1 && choice <= SIDES.length) {
+                    id = choice - 1;
+                    break;
+                }
+                System.out.println("Out of range. Try again.");
+            } catch (NumberFormatException e) {
+                System.out.println("Input must be a valid number.");
+            }
+        }
+        orderManager.addItem(new Side(SIDES[id]));
+        System.out.println("Side Added!");
     }
 }
