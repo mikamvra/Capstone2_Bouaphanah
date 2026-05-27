@@ -78,13 +78,15 @@ public class UserInterface {
 
             String choice = scanner.nextLine();
             if (choice.equals("1")) {
-
+                addPhoBowl();
             } else if (choice.equals("2")) {
-
+                addDrink();
             } else if (choice.equals("3")) {
-
+                addSide();
             } else if (choice.equals("4")) {
-
+                if (processCheckout()){
+                    return;
+                }
             } else if (choice.equals("0")) {
                 orderManager.clearOrder();
                 System.out.println("Order Canceled!");
@@ -312,5 +314,47 @@ public class UserInterface {
         }
         orderManager.addItem(new Side(SIDES[id]));
         System.out.println("Side Added!");
+    }
+    private static boolean processCheckout (){
+        if (orderManager.isEmpty()){
+            System.out.println("Your Order is Empty!");
+            return false;
+        }
+        System.out.println(
+                "    _________\n" +
+                "   /  Check /,\n" +
+                "  /  out   //\n" +
+                " / Details//\n" +
+                "(________(/\n");
+        for (Object item : orderManager.getItems()) {
+            if (item instanceof PhoBowl) System.out.println(((PhoBowl) item).getDescirption());
+            else if (item instanceof Drink) System.out.println(((Drink) item).getDescription());
+            else if (item instanceof Side) System.out.println(((Side) item).getDescription());
+        }
+        double total = orderManager.calculateTotal();
+        System.out.println("----------------------------------");
+        System.out.printf("TOTAL DUE: $%.2f\n", total);
+        System.out.println("==================================");
+
+        while (true){
+            System.out.println("1. Confirm and Print Receipt");
+            System.out.println("2. Return to Order Screen");
+            System.out.println("3. Cancel Order");
+            System.out.println("Select Option: ");
+
+            String input = scanner.nextLine().trim();
+            if (input.equals("1")){
+                orderManager.saveReceipt(total);
+                orderManager.clearOrder();
+            } else if (input.equals("2")){
+                return false;
+            } else if (input.equals("3")){
+                orderManager.clearOrder();
+                System.out.println("Order has been canceled!");
+                return true;
+            } else {
+                System.out.println("Invalid Option. Try again!");
+            }
+        }
     }
 }
