@@ -1,13 +1,6 @@
 package org.example;
 
-import javax.imageio.IIOException;
-import javax.swing.text.DateFormatter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,43 +27,50 @@ public class OrderManager {
         }
         return total;
     }
-    public void saveReceipt (double total){
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter fileFomatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmm");
-        DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    public String generateFullReceiptText() {
+        java.time.LocalDateTime now = java.time.LocalDateTime.now();
+        java.time.format.DateTimeFormatter displayFormatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        String fileName = "receipts/" + now.format(fileFomatter) + ".txt";
-        File directory = new File("receipts");
+        String receiptText = "==================================\n" +
+                "          Welcome to Mika Pho Life           \n" +
+                "    Date/Time: " + now.format(displayFormatter) + "\n" +
+                "==================================\n\n";
+
+        // Loop through every item in the cart and append its full text
+        for (Object item : currentOrder) {
+            if (item instanceof PhoBowl) {
+                receiptText = receiptText + ((PhoBowl) item).getDescription() + "\n";
+            } else if (item instanceof Drink) {
+                receiptText = receiptText + ((Drink) item).getDescription() + "\n";
+            } else if (item instanceof Side) {
+                receiptText = receiptText + ((Side) item).getDescription() + "\n";
+            }
+        }
+
+        double total = calculateTotal();
+        receiptText = receiptText + "----------------------------------\n" +
+                String.format("TOTAL DUE: $%.2f\n", total) +
+                "==================================\n";
+
+        return receiptText;
+    }
+
+    public void saveReceipt(double total) {
+        java.time.LocalDateTime now = java.time.LocalDateTime.now();
+        java.time.format.DateTimeFormatter fileFormatter = java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
+        String fileName = "receipts/" + now.format(fileFormatter) + ".txt";
+
+        // Defensive Check: Make sure receipts folder exists
+        java.io.File directory = new File("receipts");
         if (!directory.exists()) {
             directory.mkdir();
         }
-        try (FileWriter writer = new FileWriter(fileName)){
-            String receiptText = "==================================\n" +
-                    "        Mika Pho Life             " +
-                    "    Date/Time: " + now.format(displayFormatter) + "\n" +
-                    "==================================\n\n";
-            for (Object  item : currentOrder){
-                if(item instanceof PhoBowl){
-                    PhoBowl bowl = (PhoBowl) item;
-                    receiptText = receiptText + bowl.getDescription() + "\n";
-                } else if (item instanceof Drink) {
-                    Drink drink = (Drink) item;
-                    receiptText = receiptText + drink.getDescription() + "\n";
-                } else if (item instanceof Side) {
-                    Side side = (Side) item;
-                    receiptText = receiptText + side.getDescription() + "\n";
 
-                }
-            }
-            receiptText = receiptText + "----------------------------------------\n" +
-                    "TOTAL PAID: $" + String.format("%.2f", total) + "\n" +
-                    "=================================\n";
-
-            writer.write(receiptText);
-            System.out.println("Receipt saved successfully to: " + fileName);
-
-        }catch (IOException e){
-            System.out.println("Error saving receipt" + e.getMessage());
+        try (java.io.FileWriter writer = new java.io.FileWriter(fileName)) {
+            writer.write(generateFullReceiptText()); // Pulls the unified master design
+            System.out.println("Receipt file saved successfully to: " + fileName);
+        } catch (java.io.IOException e) {
+            System.out.println("Error saving file: " + e.getMessage());
         }
     }
 }
