@@ -20,6 +20,7 @@ public class UserInterface {
     private static final String[] DRINK_FLAVORS = {"Thai Iced Tea", "Vietnamese Iced Coffee", "Iced Green Tea", "Soda"};
     private static final String[] SIDES = {"Spring Rolls (2pc)", "Egg Rolls (2pc)"};
 
+
     public static void main(String[] args) {
         String noodleArt ="""
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⢀⣤⣦⣤⣤⣤⣤⣤⣶⣶⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -73,8 +74,8 @@ public class UserInterface {
             System.out.println("1. Add Pho Bowl");
             System.out.println("2. Add Drink");
             System.out.println("3. Add Main Side");
-            System.out.println("4. Checkout");
-            System.out.println("0. Cancel Order");
+            System.out.println( BOLD_GREEN +  "4. Checkout" + RESET);
+            System.out.println( BOLD_RED + "0. Cancel Order" + RESET);
             System.out.print("Select an option: ");
 
             String choice = scanner.nextLine();
@@ -120,13 +121,13 @@ public class UserInterface {
             if (bowlChoice.equals("1") || bowlChoice.equals("2")) {
                 break;
             } else {
-                System.out.println(RED +"Invalid option. Please enter  1 or 2."+ RESET);
+                System.out.println(RED + "Invalid option. Please enter  1 or 2." + RESET);
                 System.out.println();
             }
         }
 
         if (bowlChoice.equals("1")) {
-            System.out.println("\n~~~ Customized Pho Bowl ~~~");
+            System.out.println(BOLD_BLUE + "\n~~~ Customized Pho Bowl ~~~" + RESET);
 
             int type = -1;
             while (true) {
@@ -140,9 +141,9 @@ public class UserInterface {
                         type = choice - 1;
                         break;
                     }
-                    System.out.println(RED +"Invalid Choice! Choose an item from the list."+ RESET);
+                    System.out.println(RED + "Invalid Choice! Choose an item from the list." + RESET);
                 } catch (NumberFormatException e) {
-                    System.out.println(RED +"Input must be a valid number."+ RESET);
+                    System.out.println(RED + "Input must be a valid number." + RESET);
                 }
             }
             String types = PHO_TYPES[type];
@@ -154,9 +155,9 @@ public class UserInterface {
                     if (size == 1 || size == 2 || size == 3) {
                         break;
                     }
-                    System.out.println(RED +"Invalid option. Enter 1, 2, or 3."+ RESET);
+                    System.out.println(RED + "Invalid option. Enter 1, 2, or 3." + RESET);
                 } catch (NumberFormatException e) {
-                    System.out.println(RED +"Input must be a number."+ RESET);
+                    System.out.println(RED + "Input must be a number." + RESET);
                 }
             }
             boolean special = false;
@@ -269,26 +270,28 @@ public class UserInterface {
                 }
             }
             orderManager.addItem(bowl);
-            System.out.println("Pho Bowl added successfully! ");
+            System.out.println(GREEN + "Pho Bowl added successfully! " + RESET);
         }
-        int size = -1;
-        while (true) {
-            System.out.println("Select Size:\n  1) Small\n  2) Medium\n  3) Large");
-            try {
-                size = Integer.parseInt(scanner.nextLine());
-                if (size == 1 || size == 2 || size == 3) {
-                    break;
+        if (bowlChoice.equals("2")) {
+            int size = -1;
+            while (true) {
+                System.out.println("Select Size:\n  1) Small\n  2) Medium\n  3) Large");
+                try {
+                    size = Integer.parseInt(scanner.nextLine());
+                    if (size == 1 || size == 2 || size == 3) {
+                        break;
+                    }
+                    System.out.println(RED + "Invalid option. Enter 1, 2, or 3." + RESET);
+                } catch (NumberFormatException e) {
+                    System.out.println(RED + "Input must be a valid number." + RESET);
                 }
-                System.out.println(RED +"Invalid option. Enter 1, 2, or 3."+ RESET);
-            } catch (NumberFormatException e) {
-                System.out.println(RED +"Input must be a valid number."+ RESET);
             }
-        }
 
-        PhoDacBiet phoDacBietMika = new PhoDacBiet(size);
-        orderManager.addItem(phoDacBietMika);
-        System.out.println("Pho Dac Biet Mika added successfully!");
-        return;
+            PhoDacBiet phoDacBietMika = new PhoDacBiet(size);
+            orderManager.addItem(phoDacBietMika);
+            System.out.println("Pho Dac Biet Mika added successfully!");
+            return;
+        }
     }
 
     private static void addDrink() {
