@@ -4,13 +4,14 @@ import ToppingPackage.Condiments;
 import ToppingPackage.MeatToppings;
 import ToppingPackage.PremiumToppings;
 import ToppingPackage.RegularToppings;
-
 import java.util.Scanner;
+
+import static org.example.Color.*;
+
 
 public class UserInterface {
     private static Scanner scanner = new Scanner(System.in);
     private static OrderManager orderManager = new OrderManager();
-
     private static final String[] PHO_TYPES = {"Beef Pho", "Chicken Pho", "Seafood Pho", "Vegan Pho"};
     private static final String[] MEATS = {"Brisket", "Rare Steak", "Meatballs", "Chicken Flakes", "Shrimp", "Fried Tofu"};
     private static final String[] PREMIUMS = {"Soft Boiled Egg", "Quail Eggs", "Steamed Veggies", "Extra Noodles"};
@@ -20,8 +21,8 @@ public class UserInterface {
     private static final String[] SIDES = {"Spring Rolls (2pc)", "Egg Rolls (2pc)"};
 
     public static void main(String[] args) {
-        String noodleArt = """
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣦⣤⣤⣤⣤⣤⣶⣶⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+        String noodleArt ="""
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⢀⣤⣦⣤⣤⣤⣤⣤⣶⣶⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⡿⠛⢻⠛⢻⠛⢻⣿⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⡇⠀⡿⠀⣼⠀⢸⣿⡅⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⡇⠀⣿⠀⢹⠀⢸⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣠⣤⣤⡀
@@ -45,11 +46,11 @@ public class UserInterface {
                 ⠀⠀⠀⠘⢿⣷⣶⣶⣤⣤⣤⣀⣀⣀⡀⣀⠀⡀⠀⠀⠀⡀⣀⡀⣀⣀⣀⣠⣤⣤⣴⣶⣶⣿⡿⠃⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠙⢿⣿⣾⡙⠯⠿⠽⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠿⠙⢋⣿⣿⡿⠋⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⠙⠻⢿⣶⣤⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⣾⣿⠿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣈⠙⠻⠿⡿⠷⠶⡶⠶⠶⠶⠶⠶⣾⢿⣿⢿⠛⣉⣡⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣈⠙⠻⠿⡿⠷⠶⡶⠶⠶⠶⠶⠶⣾⢿⣿⢿⠛⣉⣡⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 """;
         while (true) {
-            System.out.println("\n ~~~ Welcome to Mika Pho Life ~~~");
-            System.out.println(noodleArt);
+            System.out.println("\n ~~~\u001B[31;1m Welcome to Mika Pho Life \u001B[0m~~~");
+            System.out.println(RED + noodleArt + RESET);
             System.out.println("1. New Order ");
             System.out.println("0. Exit App");
             System.out.println("Select an Option: ");
@@ -58,10 +59,10 @@ public class UserInterface {
             if (choice.equals("1")) {
                 runOrderScreen();
             } else if (choice.equals("0")) {
-                System.out.println("Exiting system. Goodbye!");
+                System.out.println("\u001B[31;1mExiting system. Goodbye!\u001B[0m");
                 break;
             } else {
-                System.out.println("Invalid Option. Please 1 or 0 ");
+                System.out.println("\u001B[31;1mInvalid Option. Please 1 or 0 \u001B[0m");
             }
         }
     }
@@ -102,32 +103,174 @@ public class UserInterface {
                     throw new RuntimeException(e);
                 }
             } else {
-                System.out.println("Invalid Option! Please enter a valid option!");
+                System.out.println(RED + "Invalid Option! Please enter a valid option!" + RESET);
             }
         }
     }
 
     private static void addPhoBowl() {
-        System.out.println("\n~~~ Customized Pho Bowl ~~~");
+        String bowlChoice = "";
 
-        int type = -1;
         while (true) {
-            System.out.println("Select Pho Type:");
-            for (int i = 0; i < PHO_TYPES.length; i++) {
-                System.out.printf(" %d) %s\n", i + 1, PHO_TYPES);
-            }
-            try {
-                int choice = Integer.parseInt(scanner.nextLine());
-                if (choice >= 1 && choice <= PHO_TYPES.length) {
-                    type = choice - 1;
-                    break;
-                }
-                System.out.println("Invalid Choice! Choose an item from the list.");
-            } catch (NumberFormatException e) {
-                System.out.println("Input must be a valid number.");
+            System.out.println("1) Build a Custom Pho Bowl");
+            System.out.println("2) Order Pho Dac Biet Mika 🍜");
+            System.out.print("Select an option: ");
+            bowlChoice = scanner.nextLine().trim();
+
+            if (bowlChoice.equals("1") || bowlChoice.equals("2")) {
+                break;
+            } else {
+                System.out.println(RED +"Invalid option. Please enter  1 or 2."+ RESET);
+                System.out.println();
             }
         }
-        String types = PHO_TYPES[type];
+
+        if (bowlChoice.equals("1")) {
+            System.out.println("\n~~~ Customized Pho Bowl ~~~");
+
+            int type = -1;
+            while (true) {
+                System.out.println("Select Pho Type:");
+                for (int i = 0; i < PHO_TYPES.length; i++) {
+                    System.out.printf(" %d) %s\n", i + 1, PHO_TYPES[i]);
+                }
+                try {
+                    int choice = Integer.parseInt(scanner.nextLine());
+                    if (choice >= 1 && choice <= PHO_TYPES.length) {
+                        type = choice - 1;
+                        break;
+                    }
+                    System.out.println(RED +"Invalid Choice! Choose an item from the list."+ RESET);
+                } catch (NumberFormatException e) {
+                    System.out.println(RED +"Input must be a valid number."+ RESET);
+                }
+            }
+            String types = PHO_TYPES[type];
+            int size = -1;
+            while (true) {
+                System.out.println("Select Size:\n  1) Small\n  2) Medium\n  3) Large");
+                try {
+                    size = Integer.parseInt(scanner.nextLine());
+                    if (size == 1 || size == 2 || size == 3) {
+                        break;
+                    }
+                    System.out.println(RED +"Invalid option. Enter 1, 2, or 3."+ RESET);
+                } catch (NumberFormatException e) {
+                    System.out.println(RED +"Input must be a number."+ RESET);
+                }
+            }
+            boolean special = false;
+            while (true) {
+                System.out.println("Would you like this add extra broth?");
+                String input = scanner.nextLine().trim().toLowerCase();
+                if (input.equalsIgnoreCase("Yes")) {
+                    special = true;
+                    break;
+                } else if (input.equalsIgnoreCase("No")) {
+                    special = false;
+                    break;
+                } else {
+                    System.out.println("Please answer with Yes or No!");
+                }
+            }
+            PhoBowl bowl = new PhoBowl(types, size, special);
+            System.out.println("Select Base Meats (Commas, or press Enter for none):");
+            for (int i = 0; i < MEATS.length; i++) System.out.printf("  %d) %s\n", i + 1, MEATS[i]);
+            String[] meatChoices = scanner.nextLine().split(",");
+            for (String c : meatChoices) {
+                String clean = c.trim();
+                if (!clean.isEmpty()) {
+                    try {
+                        int id = Integer.parseInt(clean) - 1;
+                        if (id >= 0 && id < MEATS.length) {
+                            bowl.addMeat(new MeatToppings(MEATS[id]));
+                        }
+                    } catch (NumberFormatException e) {
+                    }
+                }
+            }
+            System.out.println(" Add extra meat? ");
+            if (scanner.nextLine().equalsIgnoreCase("Yes")) {
+                System.out.println("Select Extra Meats (Commas): ");
+                meatChoices = scanner.nextLine().split(",");
+                for (String c : meatChoices) {
+                    String clean = c.trim();
+                    if (!clean.isEmpty()) {
+                        try {
+                            int id = Integer.parseInt(clean) - 1;
+                            if (id >= 0 && id < MEATS.length) {
+                                bowl.addExtraMeat(new MeatToppings(MEATS[id]));
+                            }
+                        } catch (NumberFormatException e) {
+                        }
+                    }
+                }
+            }
+            System.out.println("Select Premium Toppings (Commas, or press Enter for none): ");
+            for (int i = 0; i < PREMIUMS.length; i++) System.out.printf("  %d) %s\n", i + 1, PREMIUMS[i]);
+            String[] premChoices = scanner.nextLine().split(",");
+            for (String c : premChoices) {
+                String clean = c.trim();
+                if (!clean.isEmpty()) {
+                    try {
+                        int id = Integer.parseInt(clean) - 1;
+                        if (id >= 0 && id < PREMIUMS.length) {
+                            bowl.addPremium(new PremiumToppings(PREMIUMS[id]));
+                        }
+                    } catch (NumberFormatException e) {
+                    }
+                }
+            }
+            System.out.println("Would you like extra Premium Toppings? ");
+            if (scanner.nextLine().equalsIgnoreCase("Yes")) {
+                System.out.println("Select Extra Meats (Commas): ");
+                premChoices = scanner.nextLine().split(",");
+                for (String c : premChoices) {
+                    String clean = c.trim();
+                    if (!clean.isEmpty()) {
+                        try {
+                            int id = Integer.parseInt(clean) - 1;
+                            if (id >= 0 && id < PREMIUMS.length) {
+                                bowl.addExtraPremium(new PremiumToppings(PREMIUMS[id]));
+                            }
+                        } catch (NumberFormatException e) {
+                        }
+                    }
+                }
+            }
+            System.out.println("Select Regular Toppings (Commas, or press Enter for none): ");
+            for (int i = 0; i < REGULARS.length; i++) System.out.printf("  %d) %s\n", i + 1, REGULARS[i]);
+            String[] regChoices = scanner.nextLine().split(",");
+            for (String c : regChoices) {
+                String clean = c.trim();
+                if (!clean.isEmpty()) {
+                    try {
+                        int id = Integer.parseInt(clean) - 1;
+                        if (id >= 0 && id < REGULARS.length) {
+                            bowl.addRegular(new RegularToppings(REGULARS[id]));
+                        }
+                    } catch (NumberFormatException e) {
+                    }
+                }
+            }
+            System.out.println("Select Condiments (Commas, or press Enter for none): ");
+            for (int i = 0; i < CONDIMENTS.length; i++) System.out.printf("  %d) %s\n", i + 1, CONDIMENTS[i]);
+            String[] condChoices = scanner.nextLine().split(",");
+            for (String c : condChoices) {
+                String clean = c.trim();
+                if (!clean.isEmpty()) {
+                    try {
+                        int id = Integer.parseInt(clean) - 1;
+                        if (id >= 0 && id < CONDIMENTS.length) {
+                            bowl.addCondiment(new Condiments(CONDIMENTS[id]));
+                        }
+                    } catch (NumberFormatException e) {
+                    }
+                }
+            }
+            orderManager.addItem(bowl);
+            System.out.println("Pho Bowl added successfully! ");
+        }
         int size = -1;
         while (true) {
             System.out.println("Select Size:\n  1) Small\n  2) Medium\n  3) Large");
@@ -136,122 +279,16 @@ public class UserInterface {
                 if (size == 1 || size == 2 || size == 3) {
                     break;
                 }
-                System.out.println("Invalid option. Enter 1, 2, or 3.");
+                System.out.println(RED +"Invalid option. Enter 1, 2, or 3."+ RESET);
             } catch (NumberFormatException e) {
-                System.out.println("Input must be a number.");
+                System.out.println(RED +"Input must be a valid number."+ RESET);
             }
         }
-        boolean special = false;
-        while (true) {
-            System.out.println("Would you like this add extra broth?");
-            String input = scanner.nextLine().trim().toLowerCase();
-            if (input.equalsIgnoreCase("Yes")) {
-                special = true;
-                break;
-            } else if (input.equalsIgnoreCase("No")) {
-                special = false;
-                break;
-            } else {
-                System.out.println("Please answer with Yes or No!");
-            }
-        }
-        PhoBowl bowl = new PhoBowl(types, size, special);
-        System.out.println("Select Base Meats (Commas, or press Enter for none):");
-        for (int i = 0; i < MEATS.length; i++) System.out.printf("  %d) %s\n", i + 1, MEATS[i]);
-        String[] meatChoices = scanner.nextLine().split(",");
-        for (String c : meatChoices) {
-            String clean = c.trim();
-            if (!clean.isEmpty()) {
-                try {
-                    int id = Integer.parseInt(clean) - 1;
-                    if (id >= 0 && id < MEATS.length) {
-                        bowl.addMeat(new MeatToppings(MEATS[id]));
-                    }
-                } catch (NumberFormatException e) {
-                }
-            }
-        }
-        System.out.println(" Add extra meat? ");
-        if (scanner.nextLine().equalsIgnoreCase("Yes")) {
-            System.out.println("Select Extra Meats (Commas): ");
-            meatChoices = scanner.nextLine().split(",");
-            for (String c : meatChoices) {
-                String clean = c.trim();
-                if (!clean.isEmpty()) {
-                    try {
-                        int id = Integer.parseInt(clean) - 1;
-                        if (id >= 0 && id < MEATS.length) {
-                            bowl.addExtraMeat(new MeatToppings(MEATS[id]));
-                        }
-                    } catch (NumberFormatException e) {
-                    }
-                }
-            }
-        }
-        System.out.println("Select Premium Toppings (Commas, or press Enter for none): ");
-        for (int i = 0; i < PREMIUMS.length; i++) System.out.printf("  %d) %s\n", i + 1, PREMIUMS[i]);
-        String[] premChoices = scanner.nextLine().split(",");
-        for (String c : premChoices) {
-            String clean = c.trim();
-            if (!clean.isEmpty()) {
-                try {
-                    int id = Integer.parseInt(clean) - 1;
-                    if (id >= 0 && id < PREMIUMS.length) {
-                        bowl.addPremium(new PremiumToppings(PREMIUMS[id]));
-                    }
-                } catch (NumberFormatException e) {
-                }
-            }
-        }
-        System.out.println("Would you like extra Premium Toppings? ");
-        if (scanner.nextLine().equalsIgnoreCase("Yes")) {
-            System.out.println("Select Extra Meats (Commas): ");
-            premChoices = scanner.nextLine().split(",");
-            for (String c : premChoices) {
-                String clean = c.trim();
-                if (!clean.isEmpty()) {
-                    try {
-                        int id = Integer.parseInt(clean) - 1;
-                        if (id >= 0 && id < PREMIUMS.length) {
-                            bowl.addExtraPremium(new PremiumToppings(PREMIUMS[id]));
-                        }
-                    } catch (NumberFormatException e) {
-                    }
-                }
-            }
-        }
-        System.out.println("Select Regular Toppings (Commas, or press Enter for none): ");
-        for (int i = 0; i < REGULARS.length; i++) System.out.printf("  %d) %s\n", i + 1, REGULARS[i]);
-        String[] regChoices = scanner.nextLine().split(",");
-        for (String c : regChoices) {
-            String clean = c.trim();
-            if (!clean.isEmpty()) {
-                try {
-                    int id = Integer.parseInt(clean) - 1;
-                    if (id >= 0 && id < REGULARS.length) {
-                        bowl.addRegular(new RegularToppings(REGULARS[id]));
-                    }
-                } catch (NumberFormatException e) {
-                }
-            }
-        }
-        System.out.println("Select Condiments (Commas, or press Enter for none): ");
-        for (int i = 0; i < CONDIMENTS.length; i++) System.out.printf("  %d) %s\n", i + 1, CONDIMENTS[i]);
-        String[] condChoices = scanner.nextLine().split(",");
-        for (String c : condChoices) {
-            String clean = c.trim();
-            if (!clean.isEmpty()) {
-                try {
-                    int id = Integer.parseInt(clean) - 1;
-                    if (id >= 0 && id < CONDIMENTS.length) {
-                        bowl.addCondiment(new Condiments(CONDIMENTS[id]));
-                    }
-                } catch (NumberFormatException e) {
-                }
-            }
-        }
-        orderManager.addItem(bowl);
-        System.out.println("Pho Bowl added successfully! ");
+
+        PhoDacBiet phoDacBietMika = new PhoDacBiet(size);
+        orderManager.addItem(phoDacBietMika);
+        System.out.println("Pho Dac Biet Mika added successfully!");
+        return;
     }
 
     private static void addDrink() {
@@ -268,9 +305,9 @@ public class UserInterface {
                     id = choice - 1;
                     break;
                 }
-                System.out.println("Invalid Option. Try Again.");
+                System.out.println(RED +"Invalid Option. Try Again."+ RESET);
             } catch (NumberFormatException e) {
-                System.out.println(" Invalid Option. Please Choose a Valid Number.");
+                System.out.println(RED +" Invalid Option. Please Choose a Valid Number."+ RESET);
             }
         }
         String size = "Large";
@@ -287,7 +324,7 @@ public class UserInterface {
                 size = "Large";
                 break;
             } else {
-                System.out.println("Invalid selection. Please explicitly enter 1, 2, or 3.");
+                System.out.println(RED +"Invalid selection. Please explicitly enter 1, 2, or 3."+ RESET);
             }
         }
         orderManager.addItem(new Drink(DRINK_FLAVORS[id], size));
@@ -315,46 +352,47 @@ public class UserInterface {
         orderManager.addItem(new Side(SIDES[id]));
         System.out.println("Side Added!");
     }
-    private static boolean processCheckout (){
-        if (orderManager.isEmpty()){
+    private static boolean processCheckout () {
+        if (orderManager.isEmpty()) {
             System.out.println("Your Order is Empty!");
             return false;
         }
         System.out.println(
                 "    _________\n" +
-                "   /  Check /,\n" +
-                "  /  out   //\n" +
-                " / Details//\n" +
-                "(________(/\n");
+                        "   /  Check /,\n" +
+                        "  /  out   //\n" +
+                        " / Details//\n" +
+                        "(________(/\n");
         for (Object item : orderManager.getItems()) {
-            if (item instanceof PhoBowl) System.out.println(((PhoBowl) item).getDescirption());
+            if (item instanceof PhoBowl) System.out.println(((PhoBowl) item).getDescription());
             else if (item instanceof Drink) System.out.println(((Drink) item).getDescription());
             else if (item instanceof Side) System.out.println(((Side) item).getDescription());
         }
         double total = orderManager.calculateTotal();
         System.out.println("----------------------------------");
-        System.out.printf("TOTAL DUE: $%.2f\n", total);
+        System.out.printf("TOTAL DUE: "+ BOLD_GREEN +"$%.2f\n" + RESET, total);
         System.out.println("==================================");
 
-        while (true){
+        while (true) {
             System.out.println("1. Confirm and Print Receipt");
             System.out.println("2. Return to Order Screen");
             System.out.println("3. Cancel Order");
             System.out.println("Select Option: ");
 
             String input = scanner.nextLine().trim();
-            if (input.equals("1")){
+            if (input.equals("1")) {
                 orderManager.saveReceipt(total);
                 orderManager.clearOrder();
-            } else if (input.equals("2")){
+            } else if (input.equals("2")) {
                 return false;
-            } else if (input.equals("3")){
+            } else if (input.equals("3")) {
                 orderManager.clearOrder();
-                System.out.println("Order has been canceled!");
+                System.out.println(RED +"Order has been canceled!"+ RESET);
                 return true;
             } else {
-                System.out.println("Invalid Option. Try again!");
+                System.out.println(RED +"Invalid Option. Try again!"+ RESET);
             }
         }
     }
 }
+

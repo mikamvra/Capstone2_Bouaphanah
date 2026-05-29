@@ -39,7 +39,7 @@ public class OrderManager {
         DateTimeFormatter fileFomatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmm");
         DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-        String fileName ="Receipt/" + now.format(fileFomatter) + ".txt";
+        String fileName = "receipts/" + now.format(fileFomatter) + ".txt";
         File directory = new File("receipts");
         if (!directory.exists()) {
             directory.mkdir();
@@ -52,7 +52,7 @@ public class OrderManager {
             for (Object  item : currentOrder){
                 if(item instanceof PhoBowl){
                     PhoBowl bowl = (PhoBowl) item;
-                    receiptText = receiptText + bowl.getDescirption() + "\n";
+                    receiptText = receiptText + bowl.getDescription() + "\n";
                 } else if (item instanceof Drink) {
                     Drink drink = (Drink) item;
                     receiptText = receiptText + drink.getDescription() + "\n";

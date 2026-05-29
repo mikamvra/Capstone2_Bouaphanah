@@ -1,5 +1,7 @@
 package org.example;
 
+import static org.example.Color.*;
+
 public class Drink {
     private String flavor;
     private String size;
@@ -20,6 +22,6 @@ public class Drink {
         }
     }
     public String getDescription(){
-        return size + " Drink (" + flavor + ") - $" +String.format("%.2f", getPrice());
+        return size + " Drink (" + flavor + ") - "+ BOLD_RED + "$" +String.format("%.2f" + RESET, getPrice());
     }
 }

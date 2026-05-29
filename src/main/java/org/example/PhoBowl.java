@@ -72,38 +72,68 @@ public class PhoBowl {
         return price;
     }
 
-    public String getDescirption() {
+    public String getDescription() {
         String bowlSize = "Large";
         if (size == 1) {
             bowlSize = "Small";
         } else if (size == 2) {
             bowlSize = "Medium";
         }
-        String output = bowlSize + " " + type + " Pho";
+        double basePrice = 0;
+        if (size == 1) basePrice = 3.50;
+        else if (size == 2) basePrice = 8.50;
+        else if (size == 3) basePrice = 9.00;
+
+        String output = bowlSize + " " + type ;
         if (special) {
             output = output + " (with Extra Broth)";
         }
-        output = output + String.format(" [$%.2f]\n", getPrice());
+        output = output + String.format(" \u001B[31m[$%.2f]\u001B[0m\n", basePrice);
+
+        double mPrice = (size == 1) ? 1.00 : (size == 2) ? 2.00 : 3.00;
+        double exMPrice = (size == 1) ? 0.50 : (size == 2) ? 1.00 : 1.50;
+        double pPrice = (size == 1) ? 0.75 : (size == 2) ? 1.50 : 2.25;
+        double exPPrice = (size == 1) ? 0.30 : (size == 2) ? 0.60 : 0.90;
 
         if (!meat.isEmpty()) {
-            output = output + " - Meats: " + getNames(meat) + "\n";
+            output = output + "   - \u001B[36;1mMeats\u001B[0m:\n";
+            for (Topping t : meat) {
+                output = output + String.format("     * %s \u001B[31m(+$%.2f)\n\u001B[0m", t.getName(), mPrice);
+            }
         }
         if (!extraMeat.isEmpty()) {
-            output = output + "   - Extra Meats: " + getNames(extraMeat) + "\n";
+            output = output + "   - \u001B[36;1mExtra Meats\u001B[0m:\n";
+            for (Topping t : extraMeat) {
+                output = output + String.format("     * %s \u001B[31m(+$%.2f)\n\u001B[0m", t.getName(), exMPrice);
+            }
         }
         if (!premium.isEmpty()) {
-            output = output + "   - Premium Toppings: " + getNames(premium) + "\n";
+            output = output + "   - \u001B[36;1mPremium Toppings\u001B[0m:\n";
+            for (Topping t : premium) {
+                output = output + String.format("     * %s \u001B[31m(+$%.2f)\n\u001B[0m", t.getName(), pPrice);
+            }
         }
         if (!extraPremium.isEmpty()) {
-            output = output + "   - Extra Premiums: " + getNames(extraPremium) + "\n";
+            output = output + "   - \u001B[36;1mExtra Premiums\u001B[0m:\n";
+            for (Topping t : extraPremium) {
+                output = output + String.format("     * %s \u001B[31m(+$%.2f)\n\u001B[0m", t.getName(), exPPrice);
+            }
         }
         if (!regular.isEmpty()) {
-            output = output + "   - Regular Toppings: " + getNames(regular) + "\n";
+            output = output + "   - \u001B[36;1mRegular Toppings\u001B[0m:\n";
+            for (Topping t : regular) {
+                output = output + "     * " + t.getName() + " \u001B[31m(+$0.00)\n\u001B[0m";
+            }
         }
         if (!condiments.isEmpty()) {
-            output = output + "   - Condiments: " + getNames(condiments) + "\n";
+            output = output + "   - \u001B[36;1mCondiments\u001B[0m:\n";
+            for (Topping t : condiments) {
+                output = output + "     * " + t.getName() + " \u001B[31m(+$0.00)\n\u001B[0m";
+            }
         }
-            return bowlSize;
+        output = output + String.format("   --> Bowl Total: \u001B[32;1m$%.2f\n\u001B[0m", getPrice());
+
+        return output;
         }
         private <T extends Topping > String getNames(List < T > list) {
             List<String> names = new ArrayList<>();
